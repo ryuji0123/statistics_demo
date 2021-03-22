@@ -15,3 +15,10 @@ $ sh docker/build.sh
 $ sh docker/run.sh
 $ sh docker/exec.sh
 ```
+
+## Developping Steps
+1. Add your demo
+2. Run flake8 Scripts
+```sh
+$ sh build.sh
+```
