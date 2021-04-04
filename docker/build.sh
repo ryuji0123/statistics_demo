@@ -5,5 +5,5 @@ docker build \
   --build-arg GROUP_ID=$(id -g) \
   -f docker/Dockerfile \
   -t $IMAGE_NAME \
-  --force-rm=true \
+  --force-rm $FORCE_RM \
   .

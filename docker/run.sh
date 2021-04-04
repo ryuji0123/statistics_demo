@@ -5,8 +5,8 @@ docker run \
   -dit \
   --gpus all \
   -v $PWD:/workspace \
-  -p 6010:6010 \
-  --name $CONTAINER_NAME\
+  -p $JUPYTER_PORT:$JUPYTER_PORT \
+  --name $CONTAINER_NAME \
   --rm \
-  --shm-size=2g \
+  --shm-size $SHM_SIZE \
   $IMAGE_NAME
