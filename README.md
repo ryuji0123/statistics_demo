@@ -11,6 +11,7 @@ The names of the docker image and container are specified by constants described
 These constants can be edited to suit your project.
 ```sh
 $ cd statistics_demo
+$ cp docker/.env.sh docker/env.sh
 $ sh docker/build.sh
 $ sh docker/run.sh
 $ sh docker/exec.sh
