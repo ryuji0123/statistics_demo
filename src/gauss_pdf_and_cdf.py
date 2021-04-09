@@ -6,13 +6,19 @@ from scipy import stats
 import math
 
 
-class ProbabilisticFunction(ABC):
+class ProbabilisticDistribution(ABC):
+
     @abstractmethod
     def __init__(self):
         pass
 
+    @abstractmethod
+    def save_figure(self):
+        pass
 
-class Visualizer(ProbabilisticFunction):
+
+class Visualizer:
+
     @staticmethod
     def visualize(x, y, title):
         fig = go.Figure()
@@ -23,12 +29,13 @@ class Visualizer(ProbabilisticFunction):
         fig.show()
 
 
-class GaussianProbabilisticSetting(ProbabilisticFunction):
+class GaussianProbabilisticSetting(ProbabilisticDistribution):
+
     def __init__(self):
         pro_x = np.linspace(-5, 5, 100)
         pro_y = []
         for i in range(len(pro_x)):
-            pro_y.append(float(gauss_np(pro_x[i])))
+            pro_y.append(float(Distribution.gauss_np(pro_x[i])))
         pro_y = np.array(pro_y)
 
         self.prob = {"x": pro_x, "y": pro_y}
@@ -37,7 +44,7 @@ class GaussianProbabilisticSetting(ProbabilisticFunction):
         t = Symbol('t')
 
         # integrate gaussian pdf
-        F = integrate(gauss_sp(t), (t, -oo, x))  # gaussian cumulative density function (gaussian cdf)
+        F = integrate(Distribution.gauss_sp(t), (t, -oo, x))  # gaussian cumulative density function (gaussian cdf)
 
         dis_y = []
         t = np.linspace(-5, 5, 100)
@@ -52,20 +59,20 @@ class GaussianProbabilisticSetting(ProbabilisticFunction):
         Visualizer.visualize(x=self.dist["x"], y=self.dist["y"], title="gaussian cdf")
 
 
-class BetaProbabilisticSetting(ProbabilisticFunction):
+class BetaProbabilisticSetting(ProbabilisticDistribution):
+
     def __init__(self):
         pro_x = np.linspace(0, 1, 100)
-
+        a = 0.5
+        b = 0.5
         pro_y = []
         for i in range(len(pro_x)):
-            pro_y.append(float(beta_pdf(pro_x[i])))
+            pro_y.append(float(Distribution.beta_pdf(pro_x[i], a, b)))
         pro_y = np.array(pro_y)
 
         self.prob = {"x": pro_x, "y": pro_y}
 
         dis_x = pro_x
-        a = 0.5
-        b = 0.5
         dis_y = stats.beta.cdf(dis_x, a, b)  # beta cumulative distribution function (beta cdf)
         self.dist = {"x": dis_x, "y": dis_y}
 
@@ -74,17 +81,17 @@ class BetaProbabilisticSetting(ProbabilisticFunction):
         Visualizer.visualize(x=self.dist["x"], y=self.dist["y"], title="beta cdf")
 
 
-def gauss_np(t, mu=0, sigma=1):
-    return np.exp(-(t-mu) ** 2 / 2 * sigma ** 2) / np.sqrt(2 * np.pi * (sigma ** 2))
+class Distribution:
 
+    def gauss_np(t, mu=0, sigma=1):
+        return np.exp(-(t-mu) ** 2 / 2 * sigma ** 2) / np.sqrt(2 * np.pi * (sigma ** 2))
 
-def gauss_sp(t, mu=0, sigma=1):
-    return E**(-(t-mu) ** 2 / 2 * sigma ** 2) / sqrt(2 * pi * (sigma ** 2))
+    def gauss_sp(t, mu=0, sigma=1):
+        return E**(-(t-mu) ** 2 / 2 * sigma ** 2) / sqrt(2 * pi * (sigma ** 2))
 
-
-def beta_pdf(t, a=0.5, b=0.5):
-    B = math.gamma(a) * math.gamma(b) / math.gamma(a + b)
-    return t ** (a - 1) * (1 - t) ** (b - 1) / B
+    def beta_pdf(t, a=0.5, b=0.5):
+        B = math.gamma(a) * math.gamma(b) / math.gamma(a + b)
+        return t ** (a - 1) * (1 - t) ** (b - 1) / B
 
 
 def main(dist_type):
