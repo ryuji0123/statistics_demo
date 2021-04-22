@@ -28,6 +28,18 @@ class Visualizer:
 
     @staticmethod
     def visualize(x, y, title, fig_processing):
+        """Show or save figure
+
+        Args:
+            x: np.ndarray
+                data points
+            y: np.ndarray
+                value of probability
+            title: str
+                figure title
+            fig_processing: str
+                show or save
+        """
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=x, y=y, name=title))
         fig.update_xaxes(title="x")
@@ -37,19 +49,25 @@ class Visualizer:
             fig.show()
         elif fig_processing == 'save':
             makedirs(FIGS_ROOT, exist_ok=True)
-            fig.write_image(join(FIGS_ROOT, title+".png"))
+            fig_path = join(FIGS_ROOT, title+".png")
+            fig.write_image(fig_path)
+            return fig_path
 
 
 class GaussianProbabilisticSetting(ProbabilisticDistribution):
+    """Set data points and compute probability for gaussian distribution
+    """
 
     def __init__(self):
-        pro_x = np.linspace(-5, 5, 100)
-        pro_y = []
-        for i in range(len(pro_x)):
-            pro_y.append(float(Distribution.gauss_np(pro_x[i])))
-        pro_y = np.array(pro_y)
+        """Set data points and compute probability for gaussian distribution
+        """
+        probability_x = np.linspace(-5, 5, 100)
+        probability_y = []
+        for i in range(len(probability_x)):
+            probability_y.append(float(Distribution.gauss_np(probability_x[i])))
+        probability_y = np.array(probability_y)
 
-        self.prob = {"x": pro_x, "y": pro_y}
+        self.probability = {"x": probability_x, "y": probability_y}
 
         x = Symbol('x')
         t = Symbol('t')
@@ -57,72 +75,123 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
         # integrate gaussian pdf
         F = integrate(Distribution.gauss_sp(t), (t, -oo, x))  # gaussian cumulative density function (gaussian cdf)
 
-        dis_y = []
+        distribution_y = []
         t = np.linspace(-5, 5, 100)
         for i in range(len(t)):
-            dis_y.append(float(F.subs({x: t[i]})))
-        dis_x = pro_x
-        dis_y = np.array(dis_y)
-        self.dist = {"x": dis_x, "y": dis_y}
+            distribution_y.append(float(F.subs({x: t[i]})))
+        distribution_x = probability_x
+        distribution_y = np.array(distribution_y)
+        self.distribution = {"x": distribution_x, "y": distribution_y}
 
     def show_figure(self):
-        Visualizer.visualize(x=self.prob["x"], y=self.prob["y"], title="gaussian_pdf", fig_processing='show')
-        Visualizer.visualize(x=self.dist["x"], y=self.dist["y"], title="gaussian_cdf", fig_processing='show')
+        """Show gaussian distribution figure
+        """
+        Visualizer.visualize(x=self.probability["x"], y=self.probability["y"], title="gaussian_pdf", fig_processing='show')
+        Visualizer.visualize(x=self.distribution["x"], y=self.distribution["y"], title="gaussian_cdf", fig_processing='show')
 
     def save_figure(self):
-        Visualizer.visualize(x=self.prob["x"], y=self.prob["y"], title="gaussian_pdf", fig_processing='save')
-        Visualizer.visualize(x=self.dist["x"], y=self.dist["y"], title="gaussian_cdf", fig_processing='save')
+        """Save gaussian distribution figure
+        """
+        probability_fig_path = Visualizer.visualize(
+                x=self.probability["x"],
+                y=self.probability["y"],
+                title="gaussian_pdf",
+                fig_processing='save'
+                )
+        distribution_fig_path = Visualizer.visualize(
+                x=self.distribution["x"],
+                y=self.distribution["y"],
+                title="gaussian_cdf",
+                fig_processing='save'
+                )
+        return probability_fig_path, distribution_fig_path
 
 
 class BetaProbabilisticSetting(ProbabilisticDistribution):
+    """Setting for beta distribution
+    """
 
     def __init__(self):
-        pro_x = np.linspace(0, 1, 100)
+        """Set data points and compute probability for beta distribution
+        """
+        probability_x = np.linspace(0, 1, 100)
         a = 0.5
         b = 0.5
-        pro_y = []
-        for i in range(len(pro_x)):
-            pro_y.append(float(Distribution.beta_pdf(pro_x[i], a, b)))
-        pro_y = np.array(pro_y)
+        probability_y = []
+        for i in range(len(probability_x)):
+            probability_y.append(float(Distribution.beta_pdf(probability_x[i], a, b)))
+        probability_y = np.array(probability_y)
 
-        self.prob = {"x": pro_x, "y": pro_y}
+        self.probability = {"x": probability_x, "y": probability_y}
 
-        dis_x = pro_x
-        dis_y = stats.beta.cdf(dis_x, a, b)  # beta cumulative distribution function (beta cdf)
-        self.dist = {"x": dis_x, "y": dis_y}
+        distribution_x = probability_x
+        distribution_y = stats.beta.cdf(distribution_x, a, b)  # beta cumulative distribution function (beta cdf)
+        self.distribution = {"x": distribution_x, "y": distribution_y}
 
     def show_figure(self):
-        Visualizer.visualize(x=self.prob["x"], y=self.prob["y"], title="beta_pdf", fig_processing='show')
-        Visualizer.visualize(x=self.dist["x"], y=self.dist["y"], title="beta_cdf", fig_processing='show')
+        """Show beta distribution figure
+        """
+        Visualizer.visualize(x=self.probability["x"], y=self.probability["y"], title="beta_pdf", fig_processing='show')
+        Visualizer.visualize(x=self.distribution["x"], y=self.distribution["y"], title="beta_cdf", fig_processing='show')
 
     def save_figure(self):
-        Visualizer.visualize(x=self.prob["x"], y=self.prob["y"], title="beta_pdf", fig_processing='save')
-        Visualizer.visualize(x=self.dist["x"], y=self.dist["y"], title="beta_cdf", fig_processing='save')
+        """Save beta distribution figure
+        """
+        Visualizer.visualize(x=self.probability["x"], y=self.probability["y"], title="beta_pdf", fig_processing='save')
+        Visualizer.visualize(x=self.distribution["x"], y=self.distribution["y"], title="beta_cdf", fig_processing='save')
 
 
 class Distribution:
 
     @staticmethod
-    def gauss_np(t, mu=0, sigma=1):
-        return np.exp(-(t-mu) ** 2 / 2 * sigma ** 2) / np.sqrt(2 * np.pi * (sigma ** 2))
+    def gauss_np(t: float, mu: float = 0, sigma: float = 1):
+        """Compute gaussian probability density function.
+
+        Args:
+            t: data point
+            mu: mean of gaussian probability density function
+            sigma: standard deviation of gaussian probability density function
+        Returns:
+            gaussian probability density function
+        """
+        return np.exp(- (t - mu) ** 2 / 2*sigma ** 2) / np.sqrt(2*np.pi*(sigma ** 2))
 
     @staticmethod
-    def gauss_sp(t, mu=0, sigma=1):
-        return E**(-(t-mu) ** 2 / 2 * sigma ** 2) / sqrt(2 * pi * (sigma ** 2))
+    def gauss_sp(t, mu: float = 0, sigma: float = 1):
+        """Compute gaussian probability density function.
+
+        Args:
+            t: sympy.Symbol
+                data point
+            mu: mean of gaussian probability density function
+            sigma: standard deviation of gaussian probability density function
+        Returns:
+            gaussian probability density function as sympy.Symbol
+        """
+        return E ** (- (t - mu) ** 2 / 2*sigma ** 2) / sqrt(2*pi*(sigma ** 2))
 
     @staticmethod
-    def beta_pdf(t, a=0.5, b=0.5):
+    def beta_pdf(t: float, a: float = 0.5, b: float = 0.5):
+        """Compute beta probability density function.
+
+        Args:
+            t: data point
+            mu: mean of beta probability density function
+            sigma: standard deviation of beta probability density function
+        Returns:
+            beta probability density function
+        """
         B = math.gamma(a) * math.gamma(b) / math.gamma(a + b)
         return t ** (a - 1) * (1 - t) ** (b - 1) / B
 
 
-def main(dist_type):
-    if dist_type == "gaussian":
-        dist = GaussianProbabilisticSetting()
-    if dist_type == "beta":
-        dist = BetaProbabilisticSetting()
-    dist.show_figure()
-    dist.save_figure()
+def main(distribution_type: str):
+    if distribution_type == "gaussian":
+        distribution = GaussianProbabilisticSetting()
+    elif distribution_type == "beta":
+        distribution = BetaProbabilisticSetting()
+    distribution.show_figure()
+    probability_fig_path, distribution_fig_path = distribution.save_figure()
 
 
 if __name__ == "__main__":
