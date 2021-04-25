@@ -4,13 +4,17 @@ from src.gauss_pdf_and_cdf import (GaussianProbabilisticSetting,
 import cv2
 
 
-def test_figure(distribution_type="gaussian"):
+def test_figure(distribution_type):
     if distribution_type == "gaussian":
         distribution = GaussianProbabilisticSetting()
     elif distribution_type == "beta":
         distribution = BetaProbabilisticSetting()
 
-    distribution.show_figure()
+    lengths = distribution.show_figure()
+
+    for length in lengths:
+        assert length[0] == length[1], 'length should be same'
+
     fig_path_all = distribution.save_figure()
 
     for fig_path in fig_path_all:
@@ -19,3 +23,13 @@ def test_figure(distribution_type="gaussian"):
                'file extension should be "png"'
         fig = cv2.imread(fig_path)
         assert fig is not None, 'figure is None'
+
+
+
+def main(distribution_type):
+    test_figure(distribution_type)
+
+
+if __name__ == "__main__":
+    main("gaussian")
+    main("beta")
