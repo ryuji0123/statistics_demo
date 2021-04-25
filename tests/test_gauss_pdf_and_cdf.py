@@ -24,11 +24,8 @@ def test_figure(distribution_type):
         fig = cv2.imread(fig_path)
         assert fig is not None, 'figure is None'
 
-
-
 def main(distribution_type):
     test_figure(distribution_type)
-
 
 if __name__ == "__main__":
     main("gaussian")
