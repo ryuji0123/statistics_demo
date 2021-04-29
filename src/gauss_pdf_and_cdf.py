@@ -190,7 +190,7 @@ class Distribution:
         return np.exp(- (t - mu) ** 2 / 2*sigma ** 2) / np.sqrt(2*np.pi*(sigma ** 2))
 
     @staticmethod
-    def gauss_sp(t, mu: float = 0, sigma: float = 1):
+    def gauss_sp(t, mu: float = 0, sigma: float = 1) -> Symbol:
         """Compute gaussian probability density function.
 
         Args:
