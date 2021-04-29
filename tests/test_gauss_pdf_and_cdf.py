@@ -4,7 +4,7 @@ from src.gauss_pdf_and_cdf import (GaussianProbabilisticSetting,
 import cv2
 
 
-def test_figure(distribution_type):
+def show_or_save_figure(distribution_type):
     if distribution_type == "gaussian":
         distribution = GaussianProbabilisticSetting()
     elif distribution_type == "beta":
@@ -24,9 +24,7 @@ def test_figure(distribution_type):
         fig = cv2.imread(fig_path)
         assert fig is not None, 'figure is None'
 
-def main(distribution_type):
-    test_figure(distribution_type)
 
-if __name__ == "__main__":
-    main("gaussian")
-    main("beta")
+def test_figure():
+    show_or_save_figure("gaussian")
+    show_or_save_figure("beta")

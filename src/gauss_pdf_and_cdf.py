@@ -92,7 +92,7 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
             title="gaussian_pdf",
             fig_processing='show'
         )
-        length_distribution  = Visualizer.visualize(
+        length_distribution = Visualizer.visualize(
             x=self.distribution["x"],
             y=self.distribution["y"],
             title="gaussian_cdf",
@@ -229,4 +229,3 @@ def main(distribution_type: str) -> None:
 
 if __name__ == "__main__":
     main("gaussian")  # "gaussian" or "beta"
-
