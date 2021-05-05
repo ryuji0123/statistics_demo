@@ -27,7 +27,7 @@ class Visualizer:
 
     @staticmethod
     def visualize(x, y, title, fig_processing) -> str:
-        '''Show or save figure
+        '''Show or save figure.
 
         Args:
             x: np.ndarray
@@ -41,8 +41,8 @@ class Visualizer:
         '''
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=x, y=y, name=title))
-        fig.update_xaxes(title="x")
-        fig.update_yaxes(title="y")
+        fig.update_xaxes(title='x')
+        fig.update_yaxes(title='y')
         fig.update_layout(title=title)
         if fig_processing == 'show':
             fig.show()
@@ -55,11 +55,11 @@ class Visualizer:
 
 
 class GaussianProbabilisticSetting(ProbabilisticDistribution):
-    '''Set data points and compute probability for gaussian distribution
+    '''Set data points and compute probability for gaussian distribution.
     '''
 
     def __init__(self) -> None:
-        '''Set data points and compute probability for gaussian distribution
+        '''Set data points and compute probability for gaussian distribution.
         '''
         probability_x = np.linspace(-5, 5, 100)
         probability_y = []
@@ -67,7 +67,7 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
             probability_y.append(float(Distribution.gauss_np(probability_x[i])))
         probability_y = np.array(probability_y)
 
-        self.probability = {"x": probability_x, "y": probability_y}
+        self.probability = {'x': probability_x, 'y': probability_y}
 
         x = Symbol('x')
         t = Symbol('t')
@@ -81,27 +81,27 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
             distribution_y.append(float(F.subs({x: t[i]})))
         distribution_x = probability_x
         distribution_y = np.array(distribution_y)
-        self.distribution = {"x": distribution_x, "y": distribution_y}
+        self.distribution = {'x': distribution_x, 'y': distribution_y}
 
     def show_figure(self) -> None:
-        '''Show gaussian distribution figure
+        '''Show gaussian distribution figure.
         '''
         length_probability = Visualizer.visualize(
-            x=self.probability["x"],
-            y=self.probability["y"],
-            title="gaussian_pdf",
+            x=self.probability['x'],
+            y=self.probability['y'],
+            title='gaussian_pdf',
             fig_processing='show'
         )
         length_distribution = Visualizer.visualize(
-            x=self.distribution["x"],
-            y=self.distribution["y"],
-            title="gaussian_cdf",
+            x=self.distribution['x'],
+            y=self.distribution['y'],
+            title='gaussian_cdf',
             fig_processing='show'
         )
         return length_probability, length_distribution
 
     def save_figure(self) -> str:
-        '''Save gaussian distribution figure
+        '''Save gaussian distribution figure.
         '''
         probability_fig_path = Visualizer.visualize(
             x=self.probability['x'],
@@ -119,15 +119,16 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
 
 
 class BetaProbabilisticSetting(ProbabilisticDistribution):
-    '''Setting for beta distribution
+    '''Setting for beta distribution.
     '''
 
-    def __init__(self) -> None:
-        '''Set data points and compute probability for beta distribution
+    def __init__(self, a: float = 0.5, b: float = 0.5) -> None:
+        '''Set data points and compute probability for beta distribution.
+
+        Args:
+            a, b: parameters in beta function
         '''
         probability_x = np.linspace(0, 1, 100)
-        a = 0.5
-        b = 0.5
         probability_y = []
         for i in range(len(probability_x)):
             probability_y.append(float(Distribution.beta_pdf(probability_x[i], a, b)))
@@ -187,10 +188,10 @@ class Distribution:
         Returns:
             gaussian probability density function
         '''
-        return np.exp(- (t - mu) ** 2 / 2*sigma ** 2) / np.sqrt(2*np.pi*(sigma ** 2))
+        return np.exp(- (t - mu) ** 2 / 2 * sigma ** 2) / np.sqrt(2 * np.pi * (sigma ** 2))
 
     @staticmethod
-    def gauss_sp(t, mu: float = 0, sigma: float = 1) -> Symbol:
+    def gauss_sp(t: Symbol, mu: float = 0, sigma: float = 1) -> Symbol:
         '''Compute gaussian probability density function.
 
         Args:
@@ -201,7 +202,7 @@ class Distribution:
         Returns:
             gaussian probability density function as sympy.Symbol
         '''
-        return E ** (- (t - mu) ** 2 / 2*sigma ** 2) / sqrt(2*pi*(sigma ** 2))
+        return E ** (- (t - mu) ** 2 / 2 * sigma ** 2) / sqrt(2 * pi * (sigma ** 2))
 
     @staticmethod
     def beta_pdf(t: float, a: float = 0.5, b: float = 0.5) -> float:
@@ -209,8 +210,7 @@ class Distribution:
 
         Args:
             t: data point
-            mu: mean of beta probability density function
-            sigma: standard deviation of beta probability density function
+            a, b: parameters in beta function
         Returns:
             beta probability density function
         '''
@@ -228,4 +228,4 @@ def main(distribution_type: str) -> None:
 
 
 if __name__ == '__main__':
-    main('gaussian')  # "gaussian" or "beta"
+    main('gaussian')  # 'gaussian' or 'beta'
