@@ -24,32 +24,26 @@ $ sh docker/exec.sh
 $ sh build.sh
 ```
 
-## Demo
-### gauss_pdf_and_cdf.py
-
-Show and save some distribution figures.
-
-The figures supported in this demo are shown at the follow table.
-|distribution type|function type|
+## Visualize distributions
+In this section, you can visualize and save distirbution figures
+#### Supported distributions
+|Distribution type|Function type|
 |:---|:---|
-|gaussian|PDF|
-|gaussian|CDF|
-|beta|PDF|
-|beta|CDF|
+|Gaussian|Probability Density Function|
+|Gaussian|Cumulative Distribution Function|
+|Beta|Probability Density Function|
+|Beta|Cumulative Distribution Function|
 
-PDF is probability distribution function and CDF is cumulative distribution function.
-
-- Run this demo. You can use command:
+The figures will be saved in figs/.
+- Run this demo. You can use the command:
 ```
-$ python src/gauss_pdf_and_cdf.py
+$ python src/distribution_function.py
 ```
 
-If you specify "gaussian" as the argument of the main function, show gaussian PDF and CDF,
-![gaussian_pdf](https://user-images.githubusercontent.com/49121951/116657667-c98e5100-a9c9-11eb-9651-891a6ae53ee5.png)
-![gaussian_cdf](https://user-images.githubusercontent.com/49121951/116657716-d9a63080-a9c9-11eb-9671-2455ed4f6dd9.png)
 
-If you specify "beta" as the argument of the main function, show beta PDF and CDF,
-![beta_pdf](https://user-images.githubusercontent.com/49121951/116657825-05291b00-a9ca-11eb-9172-18162e4ced07.png)
-![beta_cdf](https://user-images.githubusercontent.com/49121951/116657853-14a86400-a9ca-11eb-86e1-d8f4077333a8.png)
+#### Case 1. Gaussian
 
-The figures are saved in figs/.
+<img src=https://user-images.githubusercontent.com/49121951/116657667-c98e5100-a9c9-11eb-9651-891a6ae53ee5.png width='470px'><img src=https://user-images.githubusercontent.com/49121951/116657716-d9a63080-a9c9-11eb-9671-2455ed4f6dd9.png width='470px'>
+
+#### Case 2. Beta
+<img src=https://user-images.githubusercontent.com/49121951/116657825-05291b00-a9ca-11eb-9172-18162e4ced07.png width='470px'><img src=https://user-images.githubusercontent.com/49121951/116657853-14a86400-a9ca-11eb-86e1-d8f4077333a8.png width='470px'>
