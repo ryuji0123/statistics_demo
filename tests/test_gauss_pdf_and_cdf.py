@@ -1,5 +1,5 @@
 from os.path import exists
-from src.gauss_pdf_and_cdf import (
+from src.distribution_function import (
     GaussianProbabilisticSetting,
     BetaProbabilisticSetting
 )
