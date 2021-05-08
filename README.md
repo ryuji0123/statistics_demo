@@ -43,7 +43,7 @@ $ python src/distribution_function.py
 
 #### Case 1. Gaussian
 
-<img src=https://user-images.githubusercontent.com/49121951/116657667-c98e5100-a9c9-11eb-9651-891a6ae53ee5.png width='470px'><img src=https://user-images.githubusercontent.com/49121951/116657716-d9a63080-a9c9-11eb-9671-2455ed4f6dd9.png width='450px'>
+<img src=https://user-images.githubusercontent.com/49121951/116657667-c98e5100-a9c9-11eb-9651-891a6ae53ee5.png width='400px'><img src=https://user-images.githubusercontent.com/49121951/116657716-d9a63080-a9c9-11eb-9671-2455ed4f6dd9.png width='400px'>
 
 #### Case 2. Beta
-<img src=https://user-images.githubusercontent.com/49121951/116657825-05291b00-a9ca-11eb-9172-18162e4ced07.png width='470px'><img src=https://user-images.githubusercontent.com/49121951/116657853-14a86400-a9ca-11eb-86e1-d8f4077333a8.png width='450px'>
+<img src=https://user-images.githubusercontent.com/49121951/116657825-05291b00-a9ca-11eb-9172-18162e4ced07.png width='400px'><img src=https://user-images.githubusercontent.com/49121951/116657853-14a86400-a9ca-11eb-86e1-d8f4077333a8.png width='400px'>
