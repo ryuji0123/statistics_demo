@@ -46,7 +46,6 @@ class Visualizer:
         fig.update_layout(title=title)
         if fig_processing == 'show':
             fig.show()
-            return len(x), len(y)
         elif fig_processing == 'save':
             makedirs(FIGS_ROOT, exist_ok=True)
             fig_path = f'{FIGS_ROOT}/{title}.png'
@@ -65,7 +64,9 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
         probability_y = []
         for i in range(len(probability_x)):
             probability_y.append(float(Distribution.gauss_np(probability_x[i])))
+
         probability_y = np.array(probability_y)
+        assert len(probability_x) == len(probability_y), 'X and y must be the same size'
 
         self.probability = {'x': probability_x, 'y': probability_y}
 
@@ -81,24 +82,25 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
             distribution_y.append(float(F.subs({x: t[i]})))
         distribution_x = probability_x
         distribution_y = np.array(distribution_y)
+
+        assert len(distribution_x) == len(distribution_y), 'X and y must be the same size'
         self.distribution = {'x': distribution_x, 'y': distribution_y}
 
     def show_figure(self) -> None:
         '''Show gaussian distribution figure.
         '''
-        length_probability = Visualizer.visualize(
+        Visualizer.visualize(
             x=self.probability['x'],
             y=self.probability['y'],
             title='gaussian_pdf',
             fig_processing='show'
         )
-        length_distribution = Visualizer.visualize(
+        Visualizer.visualize(
             x=self.distribution['x'],
             y=self.distribution['y'],
             title='gaussian_cdf',
             fig_processing='show'
         )
-        return length_probability, length_distribution
 
     def save_figure(self) -> str:
         '''Save gaussian distribution figure.
@@ -134,28 +136,30 @@ class BetaProbabilisticSetting(ProbabilisticDistribution):
             probability_y.append(float(Distribution.beta_pdf(probability_x[i], a, b)))
         probability_y = np.array(probability_y)
 
+        assert len(probability_x) == len(probability_y), 'X and y must be the same size'
         self.probability = {'x': probability_x, 'y': probability_y}
 
         distribution_x = probability_x
         distribution_y = stats.beta.cdf(distribution_x, a, b)  # beta cumulative distribution function (beta cdf)
+
+        assert len(distribution_x) == len(distribution_y), 'X and y must be the same size'
         self.distribution = {'x': distribution_x, 'y': distribution_y}
 
     def show_figure(self) -> None:
         '''Show beta distribution figure
         '''
-        probability_fig_path = Visualizer.visualize(
+        Visualizer.visualize(
             x=self.probability['x'],
             y=self.probability['y'],
             title='beta_pdf',
             fig_processing='show'
         )
-        distribution_fig_path = Visualizer.visualize(
+        Visualizer.visualize(
             x=self.distribution['x'],
             y=self.distribution['y'],
             title='beta_cdf',
             fig_processing='show'
         )
-        return probability_fig_path, distribution_fig_path
 
     def save_figure(self) -> None:
         '''Save beta distribution figure

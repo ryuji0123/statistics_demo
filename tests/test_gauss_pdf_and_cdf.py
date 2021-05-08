@@ -19,13 +19,6 @@ def examine_show_or_save_figure_function(distribution_type: str) -> None:
     else:
         raise NotImplementedError()
 
-    lengths = distribution.show_figure()
-
-    for length in lengths:
-        x_length = length[0]
-        y_length = length[1]
-        assert x_length == y_length, 'X and y must be the same size'
-
     fig_path_all = distribution.save_figure()
 
     for fig_path in fig_path_all:
