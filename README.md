@@ -34,7 +34,7 @@ In this section, you can visualize and save distribution figures.
 |Beta|Probability Density Function|
 |Beta|Cumulative Distribution Function|
 
-The figures will be saved in figs/.
+The figures are saved in figs/.
 - Run this demo. You can use the command:
 ```
 $ python src/distribution_function.py
