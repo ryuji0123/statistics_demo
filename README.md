@@ -25,7 +25,7 @@ $ sh build.sh
 ```
 
 ## Visualize distributions
-In this section, you can visualize and save distirbution figures.
+In this section, you can visualize and save distribution figures.
 #### Supported distributions
 |Distribution type|Function type|
 |:---|:---|
