@@ -230,7 +230,7 @@ def main(distribution_type: str) -> None:
     elif distribution_type == 'beta':
         distribution = BetaProbabilisticDistributionHandler()
     else:
-        raise NotImplementedError()
+        raise NotImplementedError('Distriution_type should be "gaussian" or "beta".')
     distribution.show_figure()
     distribution.save_figure()
 
