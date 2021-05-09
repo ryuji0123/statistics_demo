@@ -8,7 +8,7 @@ import math
 from config import FIGS_ROOT
 
 
-class ProbabilisticDistribution(ABC):
+class ProbabilisticDistributionHandler(ABC):
 
     @abstractmethod
     def __init__(self):
@@ -23,10 +23,10 @@ class ProbabilisticDistribution(ABC):
         pass
 
 
-class Visualizer:
+class Visualizer(object):
 
     @staticmethod
-    def visualize(x, y, title, fig_processing) -> str:
+    def visualize(x, y, title, fig_processing) -> None:
         '''Show or save figure.
 
         Args:
@@ -51,9 +51,11 @@ class Visualizer:
             fig_path = f'{FIGS_ROOT}/{title}.png'
             fig.write_image(fig_path)
             return fig_path
+        else:
+            raise NotImplementedError()
 
 
-class GaussianProbabilisticSetting(ProbabilisticDistribution):
+class GaussianProbabilisticDistributionHandler(ProbabilisticDistributionHandler):
     '''Set data points and compute probability for gaussian distribution.
     '''
 
@@ -120,7 +122,7 @@ class GaussianProbabilisticSetting(ProbabilisticDistribution):
         return probability_fig_path, distribution_fig_path
 
 
-class BetaProbabilisticSetting(ProbabilisticDistribution):
+class BetaProbabilisticDistributionHandler(ProbabilisticDistributionHandler):
     '''Setting for beta distribution.
     '''
 
@@ -161,7 +163,7 @@ class BetaProbabilisticSetting(ProbabilisticDistribution):
             fig_processing='show'
         )
 
-    def save_figure(self) -> None:
+    def save_figure(self) -> str:
         '''Save beta distribution figure
         '''
         probability_fig_path = Visualizer.visualize(
@@ -224,9 +226,11 @@ class Distribution:
 
 def main(distribution_type: str) -> None:
     if distribution_type == 'gaussian':
-        distribution = GaussianProbabilisticSetting()
+        distribution = GaussianProbabilisticDistributionHandler()
     elif distribution_type == 'beta':
-        distribution = BetaProbabilisticSetting()
+        distribution = BetaProbabilisticDistributionHandler()
+    else:
+        raise NotImplementedError()
     distribution.show_figure()
     distribution.save_figure()
 

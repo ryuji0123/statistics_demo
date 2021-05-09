@@ -1,7 +1,7 @@
 from os.path import exists
 from src.distribution_function import (
-    GaussianProbabilisticSetting,
-    BetaProbabilisticSetting
+    GaussianProbabilisticDistributionHandler,
+    BetaProbabilisticDistributionHandler
 )
 import cv2
 
@@ -13,9 +13,9 @@ def examine_show_or_save_figure_function(distribution_type: str) -> None:
         distribution_type: 'gaussian' or 'beta'
     '''
     if distribution_type == 'gaussian':
-        distribution = GaussianProbabilisticSetting()
+        distribution = GaussianProbabilisticDistributionHandler()
     elif distribution_type == 'beta':
-        distribution = BetaProbabilisticSetting()
+        distribution = BetaProbabilisticDistributionHandler()
     else:
         raise NotImplementedError()
 
