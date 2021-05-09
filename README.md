@@ -29,10 +29,8 @@ In this section, you can visualize and save distribution figures.
 #### Supported distributions
 |Distribution type|Function type|
 |:---|:---|
-|Gaussian|Probability Density Function|
-|Gaussian|Cumulative Distribution Function|
-|Beta|Probability Density Function|
-|Beta|Cumulative Distribution Function|
+|Gaussian|Probability Density Function<br>Cumulative Distribution Function|
+|Beta|Probability Density Function<br>Cumulative Distribution Function|
 
 The figures are saved in figs/.
 - Run this demo. You can use the command:
