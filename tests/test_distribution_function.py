@@ -17,7 +17,7 @@ def examine_show_or_save_figure_function(distribution_type: str) -> None:
     elif distribution_type == 'beta':
         distribution = BetaProbabilisticDistributionHandler()
     else:
-        raise NotImplementedError()
+        raise NotImplementedError('Distriution type should be "gaussian" or "beta"')
 
     fig_path_all = distribution.save_figure()
 
