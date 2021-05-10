@@ -26,7 +26,7 @@ class ProbabilisticDistributionHandler(ABC):
 class Visualizer(object):
 
     def visualize(self, x: np.ndarray, y: np.ndarray, title: str) -> go.Figure:
-        '''Show or save figure.
+        '''Set the axis and the title of the figure.
 
         Args:
             x: np.ndarray
@@ -35,8 +35,6 @@ class Visualizer(object):
                 value of probability
             title: str
                 figure title
-            fig_processing: str
-                show or save
         '''
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=x, y=y, name=title))
@@ -46,10 +44,30 @@ class Visualizer(object):
         return fig
 
     def show(self, x: np.ndarray, y: np.ndarray, title: str) -> None:
+        '''Show the figure.
+
+        Args:
+            x: np.ndarray
+                data points
+            y: np.ndarray
+                value of probability
+            title: str
+                figure title
+        '''
         fig = self.visualize(x, y, title)
         fig.show()
 
     def save(self, x: np.ndarray, y: np.ndarray, title: str) -> str:
+        '''Save the figure.
+
+        Args:
+            x: np.ndarray
+                data points
+            y: np.ndarray
+                value of probability
+            title: str
+                figure title
+        '''
         fig = self.visualize(x, y, title)
         makedirs(FIGS_ROOT, exist_ok=True)
         fig_path = f'{FIGS_ROOT}/{title}.png'
@@ -123,7 +141,7 @@ class GaussianProbabilisticDistributionHandler(ProbabilisticDistributionHandler)
 
 
 class BetaProbabilisticDistributionHandler(ProbabilisticDistributionHandler):
-    '''Setting for beta distribution.
+    '''Set data points and compute probability for beta distribution.
     '''
 
     def __init__(self, a: float = 0.5, b: float = 0.5) -> None:
