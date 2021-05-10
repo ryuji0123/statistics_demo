@@ -25,8 +25,7 @@ class ProbabilisticDistributionHandler(ABC):
 
 class Visualizer(object):
 
-    @staticmethod
-    def visualize(x, y, title, fig_processing) -> None:
+    def visualize(self, x: np.ndarray, y: np.ndarray, title: str) -> go.Figure:
         '''Show or save figure.
 
         Args:
@@ -44,15 +43,18 @@ class Visualizer(object):
         fig.update_xaxes(title='x')
         fig.update_yaxes(title='y')
         fig.update_layout(title=title)
-        if fig_processing == 'show':
-            fig.show()
-        elif fig_processing == 'save':
-            makedirs(FIGS_ROOT, exist_ok=True)
-            fig_path = f'{FIGS_ROOT}/{title}.png'
-            fig.write_image(fig_path)
-            return fig_path
-        else:
-            raise NotImplementedError()
+        return fig
+
+    def show(self, x: np.ndarray, y: np.ndarray, title: str) -> None:
+        fig = self.visualize(x, y, title)
+        fig.show()
+
+    def save(self, x: np.ndarray, y: np.ndarray, title: str) -> str:
+        fig = self.visualize(x, y, title)
+        makedirs(FIGS_ROOT, exist_ok=True)
+        fig_path = f'{FIGS_ROOT}/{title}.png'
+        fig.write_image(fig_path)
+        return fig_path
 
 
 class GaussianProbabilisticDistributionHandler(ProbabilisticDistributionHandler):
@@ -88,36 +90,34 @@ class GaussianProbabilisticDistributionHandler(ProbabilisticDistributionHandler)
         assert len(distribution_x) == len(distribution_y), 'X and y must be the same size'
         self.distribution = {'x': distribution_x, 'y': distribution_y}
 
+        self.visualize_figure = Visualizer()
+
     def show_figure(self) -> None:
         '''Show gaussian distribution figure.
         '''
-        Visualizer.visualize(
+        self.visualize_figure.show(
             x=self.probability['x'],
             y=self.probability['y'],
-            title='gaussian_pdf',
-            fig_processing='show'
+            title='gaussian_pdf'
         )
-        Visualizer.visualize(
+        self.visualize_figure.show(
             x=self.distribution['x'],
             y=self.distribution['y'],
-            title='gaussian_cdf',
-            fig_processing='show'
+            title='gaussian_cdf'
         )
 
     def save_figure(self) -> str:
         '''Save gaussian distribution figure.
         '''
-        probability_fig_path = Visualizer.visualize(
+        probability_fig_path = self.visualize_figure.save(
             x=self.probability['x'],
             y=self.probability['y'],
-            title='gaussian_pdf',
-            fig_processing='save'
+            title='gaussian_pdf'
         )
-        distribution_fig_path = Visualizer.visualize(
+        distribution_fig_path = self.visualize_figure.save(
             x=self.distribution['x'],
             y=self.distribution['y'],
-            title='gaussian_cdf',
-            fig_processing='save'
+            title='gaussian_cdf'
         )
         return probability_fig_path, distribution_fig_path
 
@@ -147,36 +147,34 @@ class BetaProbabilisticDistributionHandler(ProbabilisticDistributionHandler):
         assert len(distribution_x) == len(distribution_y), 'X and y must be the same size'
         self.distribution = {'x': distribution_x, 'y': distribution_y}
 
+        self.visualize_figure = Visualizer()
+
     def show_figure(self) -> None:
         '''Show beta distribution figure
         '''
-        Visualizer.visualize(
+        self.visualize_figure.show(
             x=self.probability['x'],
             y=self.probability['y'],
-            title='beta_pdf',
-            fig_processing='show'
+            title='beta_pdf'
         )
-        Visualizer.visualize(
+        self.visualize_figure.show(
             x=self.distribution['x'],
             y=self.distribution['y'],
-            title='beta_cdf',
-            fig_processing='show'
+            title='beta_cdf'
         )
 
     def save_figure(self) -> str:
         '''Save beta distribution figure
         '''
-        probability_fig_path = Visualizer.visualize(
+        probability_fig_path = self.visualize_figure.save(
             x=self.probability['x'],
             y=self.probability['y'],
-            title='beta_pdf',
-            fig_processing='save'
+            title='beta_pdf'
         )
-        distribution_fig_path = Visualizer.visualize(
+        distribution_fig_path = self.visualize_figure.save(
             x=self.distribution['x'],
             y=self.distribution['y'],
-            title='beta_cdf',
-            fig_processing='save'
+            title='beta_cdf'
         )
         return probability_fig_path, distribution_fig_path
 
@@ -230,7 +228,7 @@ def main(distribution_type: str) -> None:
     elif distribution_type == 'beta':
         distribution = BetaProbabilisticDistributionHandler()
     else:
-        raise NotImplementedError('Distriution_type should be "gaussian" or "beta".')
+        raise NotImplementedError('Distriution type should be "gaussian" or "beta".')
     distribution.show_figure()
     distribution.save_figure()
 
